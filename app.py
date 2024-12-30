@@ -62,7 +62,15 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# Range untuk setiap variabel (sesuai dengan yang ada di kode asli Anda)
+# Fungsi untuk memastikan nilai berada dalam range yang benar
+def clip_values(values, ranges):
+    clipped_values = {}
+    for column, (min_val, max_val) in ranges.items():
+        if column in values:
+            clipped_values[column] = np.clip(values[column], min_val, max_val)
+    return clipped_values
+
+# Range untuk setiap variabel
 ranges = {
     'Marital_status': (1, 6),
     'Application_mode': (1, 57),
@@ -102,93 +110,32 @@ ranges = {
     'GDP': (-1.94, 1.59)
 }
 
-# Organize variables sesuai dengan ranges yang tersedia
-variable_groups = {
-    "Data Pribadi": [
-        "Marital_status", "Age_at_enrollment", "Gender", "Nacionality",
-        "International", "Displaced", "Educational_special_needs"
-    ],
-    "Data Akademik": [
-        "Application_mode", "Application_order", "Course", 
-        "Previous_qualification", "Previous_qualification_grade",
-        "Admission_grade", "Daytime_evening_attendance"
-    ],
-    "Data Keluarga": [
-        "Mothers_qualification", "Fathers_qualification",
-        "Mothers_occupation", "Fathers_occupation"
-    ],
-    "Data Keuangan": [
-        "Debtor", "Tuition_fees_up_to_date", "Scholarship_holder"
-    ],
-    "Data Semester 1": [
-        "Curricular_units_1st_sem_credited", "Curricular_units_1st_sem_enrolled",
-        "Curricular_units_1st_sem_evaluations", "Curricular_units_1st_sem_approved",
-        "Curricular_units_1st_sem_grade", "Curricular_units_1st_sem_without_evaluations"
-    ],
-    "Data Semester 2": [
-        "Curricular_units_2nd_sem_credited", "Curricular_units_2nd_sem_enrolled",
-        "Curricular_units_2nd_sem_evaluations", "Curricular_units_2nd_sem_approved",
-        "Curricular_units_2nd_sem_grade", "Curricular_units_2nd_sem_without_evaluations"
-    ],
-    "Data Ekonomi": [
-        "Unemployment_rate", "Inflation_rate", "GDP"
-    ]
-}
-
-# Fungsi untuk memastikan nilai berada dalam range yang benar
-def clip_values(values, ranges):
-    clipped_values = {}
-    for column, (min_val, max_val) in ranges.items():
-        if column in values:
-            clipped_values[column] = np.clip(values[column], min_val, max_val)
-    return clipped_values
-
-# Input Form dengan Tabs
+# Input nilai variabel dari pengguna
+st.subheader("Masukkan Nilai Variabel:")
 user_inputs = {}
-tabs = st.tabs(list(variable_groups.keys()))
-
-for tab, (group_name, variables) in zip(tabs, variable_groups.items()):
-    with tab:
-        st.markdown(f"### {group_name}")
-        col1, col2 = st.columns(2)
-        for i, var in enumerate(variables):
-            with col1 if i % 2 == 0 else col2:
-                # Add help text for each input
-                help_text = f"Range: {ranges[var][0]} - {ranges[var][1]}"
-                user_inputs[var] = st.number_input(
-                    f"{var}:",
-                    min_value=float(ranges[var][0]),
-                    max_value=float(ranges[var][1]),
-                    value=float((ranges[var][0] + ranges[var][1]) / 2),
-                    help=help_text
-                )
+for variable in ranges.keys():
+    user_inputs[variable] = st.number_input(f"{variable}:", min_value=ranges[variable][0], max_value=ranges[variable][1], value=(ranges[variable][0] + ranges[variable][1]) // 2)
 
 # Clip nilai untuk memastikan berada dalam range yang valid
 clipped_inputs = clip_values(user_inputs, ranges)
 
-# Convert input menjadi array untuk prediksi
+# Ubah input menjadi array untuk prediksi
 X = np.array([list(clipped_inputs.values())])
 
-# Load model dan prediksi
-st.markdown("---")
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    try:
-        with open("gboost_model.pkl", "rb") as file:
-            model = pickle.load(file)
-        
-        if st.button("🔍 Prediksi Status", use_container_width=True):
-            prediction = model.predict(X)[0]
-            result = {
-                2: """<div class="status-box graduate">Graduate 🎓</div>""",
-                0: """<div class="status-box dropout">Dropout ❌</div>""",
-                1: """<div class="status-box enrolled">Enrolled 📘</div>"""
-            }
-            st.markdown("<h3 style='text-align: center;'>Hasil Prediksi:</h3>", unsafe_allow_html=True)
-            st.markdown(result[prediction], unsafe_allow_html=True)
-            
-    except FileNotFoundError:
-        st.error("⚠️ Model file not found. Please train and save your model first.")
+# 3. Memuat model 
+try:
+    with open("gboost_model.pkl", "rb") as file:
+        model = pickle.load(file)
+    st.success("Model loaded successfully!")
+
+    # 4. Prediksi dengan model
+    if st.button("Predict"):
+        prediction = model.predict(X)[0]
+        result = {2: "Graduate 🎓", 0: "Dropout ❌", 1: "Enrolled 📘"}
+        st.write(f"Prediction Result: {result[prediction]}")
+
+except FileNotFoundError:
+    st.error("⚠️Model file not found. Please train and save your model first.")
 
 # Footer
 st.markdown("---")
