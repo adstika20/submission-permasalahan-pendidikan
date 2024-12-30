@@ -23,8 +23,8 @@ Sumber data: [Github Page](https://raw.githubusercontent.com/dicodingacademy/dic
 Setup environment:
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/adstika20/Submission-Data-Analyst-Penyewaan-Sepeda.git
-cd Submission-Data-Analyst-Penyewaan-Sepeda
+git clone https://github.com/adstika20/submission-permasalahan-pendidikan.git
+cd submission-permasalahan-pendidikan
 ```
 
 ### 2️⃣ **Membuat Virtual Environment**  
@@ -45,8 +45,13 @@ pip install -r requirements.txt
 streamlit run main.py
 ```
 
-## Business Dashboard
-Jelaskan tentang business dashboard yang telah dibuat. Jika ada, sertakan juga link untuk mengakses dashboard tersebut.
+## Business Dashboard 
+Dashboard ini dibuat menggunakan tools Tableau dengan tujuan untuk mendeteksi siswa yang berisiko tinggi melakukan dropout sedini mungkin. Dengan informasi ini, pihak terkait dapat memberikan bimbingan khusus secara proaktif untuk mencegah siswa tersebut berhenti dari pendidikan.
+
+Link Akses Dashboard:[Dashboard Tableau Public](https://public.tableau.com/views/Performasiswa/Dashboard1?:language=en-US&publish=yes&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+
+
+
 
 ## Menjalankan Sistem Machine Learning
 Jelaskan cara menjalankan protoype sistem machine learning yang telah dibuat. Selain itu, sertakan juga link untuk mengakses prototype tersebut.
