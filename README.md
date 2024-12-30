@@ -18,11 +18,31 @@ Berikut adalah permasalahan bisnis yang akan diselesaikan:
 
 ### Persiapan
 
-Sumber data: ....
+Sumber data: [Github Page](https://raw.githubusercontent.com/dicodingacademy/dicoding_dataset/main/students_performance/data.csv)
 
 Setup environment:
+### 1. Clone Repository
+```bash
+git clone https://github.com/adstika20/Submission-Data-Analyst-Penyewaan-Sepeda.git
+cd Submission-Data-Analyst-Penyewaan-Sepeda
 ```
 
+### 2️⃣ **Membuat Virtual Environment**  
+Buat dan aktifkan lingkungan virtual untuk memastikan dependensi tidak bentrok:  
+```bash
+python -m venv env
+```
+#### Aktifkan lingkungan virtual:
+```bash
+.\env\Scripts\activate
+```
+### 3️⃣ Instal Dependencies
+```bash
+pip install -r requirements.txt
+```
+### 4️⃣ Jalankan Aplikasi Streamlit
+```bash
+streamlit run main.py
 ```
 
 ## Business Dashboard
