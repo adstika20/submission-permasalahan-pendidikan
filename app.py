@@ -3,18 +3,9 @@ import streamlit as st
 import numpy as np
 import pickle
 
-# 2. Judul dan Deskripsi Aplikasi dengan Emoji
-st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🌟 Prediksi Status Mahasiswa 🌟</h1>", unsafe_allow_html=True)
-st.markdown(
-    """
-    <p style="text-align: center; font-size: 18px; color: #555;">
-    Aplikasi ini menggunakan model <b>Gradient Boosting</b> untuk memprediksi status mahasiswa:
-    <span style="color: green;">Graduate 🎓</span>, 
-    <span style="color: red;">Dropout ❌</span>, atau 
-    <span style="color: blue;">Enrolled 📘</span>.
-    </p>
-    """, unsafe_allow_html=True
-)
+# 2. Judul dan deskripsi aplikasi
+st.title("Menyelesaikan Permasalahan Institusi Pendidikan")
+st.write("Aplikasi ini menggunakan model Gradient Boosting untuk prediksi status mahasiswa (Graduate, Dropout, Enrolled).")
 
 # Fungsi untuk memastikan nilai berada dalam range yang benar
 def clip_values(values, ranges):
@@ -65,16 +56,10 @@ ranges = {
 }
 
 # Input nilai variabel dari pengguna
-st.markdown("### 🔢 Masukkan Nilai Variabel:")
+st.subheader("Masukkan Nilai Variabel:")
 user_inputs = {}
 for variable in ranges.keys():
-    user_inputs[variable] = st.number_input(
-        f"{variable.replace('_', ' ').capitalize()} 📊:",
-        min_value=ranges[variable][0],
-        max_value=ranges[variable][1],
-        value=(ranges[variable][0] + ranges[variable][1]) // 2,
-        step=1 if isinstance(ranges[variable][0], int) else 0.01
-    )
+    user_inputs[variable] = st.number_input(f"{variable}:", min_value=ranges[variable][0], max_value=ranges[variable][1], value=(ranges[variable][0] + ranges[variable][1]) // 2)
 
 # Clip nilai untuk memastikan berada dalam range yang valid
 clipped_inputs = clip_values(user_inputs, ranges)
@@ -82,21 +67,17 @@ clipped_inputs = clip_values(user_inputs, ranges)
 # Ubah input menjadi array untuk prediksi
 X = np.array([list(clipped_inputs.values())])
 
-# 3. Memuat model
+# 3. Memuat model 
 try:
-    with open("C:\Users\ASUS\OneDrive\Documents\ID CAMP 24 DATA SCIENCE\Penerapan Data science\Submission Akhir\gboost_model.pkl", "rb") as file:
+    with open("gboost_model.pkl", "rb") as file:
         model = pickle.load(file)
-    st.success("🎉 Model loaded successfully!")
+    st.success("Model loaded successfully!")
 
     # 4. Prediksi dengan model
-    if st.button("🔮 Predict"):
+    if st.button("Predict"):
         prediction = model.predict(X)[0]
-        result = {
-            2: "<span style='color: green;'>🎓 Graduate</span>",
-            0: "<span style='color: red;'>❌ Dropout</span>",
-            1: "<span style='color: blue;'>📘 Enrolled</span>"
-        }
-        st.markdown(f"### Hasil Prediksi: {result[prediction]}", unsafe_allow_html=True)
+        result = {2: "Graduate", 0: "Dropout", 1: "Enrolled"}
+        st.write(f"Prediction Result: {result[prediction]}")
 
 except FileNotFoundError:
-    st.error("⚠️ Model file not found. Please train and save your model first.")
+    st.error("Model file not found. Please train and save your model first.")
