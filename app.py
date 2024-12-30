@@ -85,8 +85,8 @@ try:
     # 4. Prediksi dengan model
     if st.button("Predict"):
         prediction = model.predict(X)[0]
-        result = {2: "Graduate", 0: "Dropout", 1: "Enrolled"}
+        result = {2: "Graduate 🎓", 0: "Dropout ❌", 1: "Enrolled 📘"}
         st.write(f"Prediction Result: {result[prediction]}")
 
 except FileNotFoundError:
-    st.error("Model file not found. Please train and save your model first.")
+    st.error("⚠️Model file not found. Please train and save your model first.")
