@@ -50,17 +50,18 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# Information Section
-st.markdown("""
-    <div class="info-box">
-        <h3>📊 Tentang Aplikasi</h3>
-        <p>Aplikasi ini membantu memprediksi status akademik mahasiswa berdasarkan berbagai faktor. 
-        Status yang dapat diprediksi:</p>
-        <div class="status-box graduate">Graduate 🎓</div>
-        <div class="status-box dropout">Dropout ❌</div>
-        <div class="status-box enrolled">Enrolled 📘</div>
-    </div>
-    """, unsafe_allow_html=True)
+# 2. Judul dan Deskripsi Aplikasi dengan Emoji
+st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🌟 Prediksi Status Mahasiswa 🌟</h1>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <p style="text-align: center; font-size: 18px; color: #555;">
+    Aplikasi ini menggunakan model <b>Gradient Boosting</b> untuk memprediksi status mahasiswa:
+    <span style="color: green;">Graduate 🎓</span>, 
+    <span style="color: red;">Dropout ❌</span>, atau 
+    <span style="color: blue;">Enrolled 📘</span>.
+    </p>
+    """, unsafe_allow_html=True
+)
 
 # Fungsi untuk memastikan nilai berada dalam range yang benar
 def clip_values(values, ranges):
