@@ -96,12 +96,32 @@ mahasiswa dengan status dropout (status 0) cenderung memiliki rata-rata unit kur
 ## Menjalankan Sistem Machine Learning
 Jelaskan cara menjalankan protoype sistem machine learning yang telah dibuat. Selain itu, sertakan juga link untuk mengakses prototype tersebut.
 
+### 1. Pastikan Prasyarat Terpenuhi
+```bash
+pip install -r requirements.txt
 ```
 
+### 2. Jalankan Aplikasi Streamlit Buka terminal atau Command Prompt  
+
+```bash
+streamlit run app.py
 ```
+Akses Prototype : [Streamlite](https://submission-permasalahan-pendidikan-jxvugfktfifyykpomgy8zw.streamlit.app/)
+
+#### Penjelasan Cara Prediksi Setelah Menjalankan Streamlit
+- Input data menggunakan formulir sederhana.
+  Setelah aplikasi berjalan, pengguna diminta untuk memasukkan nilai variabel-variabel yang tersedia di aplikasi. Setiap variabel memiliki rentang nilai tertentu, yang dijelaskan di aplikasi untuk memastikan validitas data yang dimasukkan.
+- Validasi dan Transformasi data
+  Data yang dimasukkan akan diproses menggunakan fungsi clip_values() untuk memastikan nilainya berada dalam rentang yang diperbolehkan.
+- Prediksi Status Mahasiswa
+  Setelah semua data diinput, pengguna dapat menekan tombol "Predict" untuk menjalankan prediksi. Aplikasi akan menampilkan hasil prediksi dengan label berikut:
+- Graduate 🎓: Mahasiswa diprediksi lulus.
+- Dropout ❌: Mahasiswa diprediksi berhenti.
+- Enrolled 📘: Mahasiswa diprediksi masih terdaftar.
+  
 
 ## Conclusion
-Jelaskan konklusi dari proyek yang dikerjakan.
+Solusi berbasis data yang dikembangkan untuk mengatasi tingginya tingkat dropout di Jaya Jaya Institut mencakup integrasi teknologi analitik dan machine learning. Dashboard interaktif menggunakan Tableau memberikan wawasan real-time terkait performa siswa, sementara model prediksi berbasis algoritma gradient boosting yang di-deploy melalui Streamlit memungkinkan institusi mengidentifikasi siswa berisiko tinggi secara akurat. Dengan pendekatan ini, institusi dapat menerapkan intervensi yang lebih efektif, meningkatkan keberlanjutan studi mahasiswa, dan memperkuat reputasi serta stabilitasnya secara menyeluruh.
 
 ### Rekomendasi Action Items
 Berikan beberapa rekomendasi action items yang harus dilakukan perusahaan guna menyelesaikan permasalahan atau mencapai target mereka.
