@@ -84,7 +84,7 @@ X = np.array([list(clipped_inputs.values())])
 
 # 3. Memuat model
 try:
-    with open("gboost_model.pkl", "rb") as file:
+    with open("C:\Users\ASUS\OneDrive\Documents\ID CAMP 24 DATA SCIENCE\Penerapan Data science\Submission Akhir\gboost_model.pkl", "rb") as file:
         model = pickle.load(file)
     st.success("🎉 Model loaded successfully!")
 
