@@ -62,15 +62,56 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# Organize variables into logical groups
+# Range untuk setiap variabel (sesuai dengan yang ada di kode asli Anda)
+ranges = {
+    'Marital_status': (1, 6),
+    'Application_mode': (1, 57),
+    'Application_order': (0, 9),
+    'Course': (33, 9991),
+    'Daytime_evening_attendance': (0, 1),
+    'Previous_qualification': (1, 43),
+    'Previous_qualification_grade': (-2.85, 4.35),
+    'Nacionality': (1, 109),
+    'Mothers_qualification': (1, 44),
+    'Fathers_qualification': (1, 44),
+    'Mothers_occupation': (0, 194),
+    'Fathers_occupation': (0, 195),
+    'Admission_grade': (-2.18, 4.37),
+    'Displaced': (0, 1),
+    'Educational_special_needs': (0, 1),
+    'Debtor': (0, 1),
+    'Tuition_fees_up_to_date': (0, 1),
+    'Gender': (0, 1),
+    'Scholarship_holder': (0, 1),
+    'Age_at_enrollment': (17, 70),
+    'International': (0, 1),
+    'Curricular_units_1st_sem_credited': (0, 20),
+    'Curricular_units_1st_sem_enrolled': (0, 26),
+    'Curricular_units_1st_sem_evaluations': (0, 45),
+    'Curricular_units_1st_sem_approved': (0, 26),
+    'Curricular_units_1st_sem_grade': (-2.19, 1.64),
+    'Curricular_units_1st_sem_without_evaluations': (0, 12),
+    'Curricular_units_2nd_sem_credited': (0, 19),
+    'Curricular_units_2nd_sem_enrolled': (0, 23),
+    'Curricular_units_2nd_sem_evaluations': (0, 33),
+    'Curricular_units_2nd_sem_approved': (0, 20),
+    'Curricular_units_2nd_sem_grade': (-1.96, 1.60),
+    'Curricular_units_2nd_sem_without_evaluations': (0, 12),
+    'Unemployment_rate': (-1.47, 1.83),
+    'Inflation_rate': (-0.89, 2.00),
+    'GDP': (-1.94, 1.59)
+}
+
+# Organize variables sesuai dengan ranges yang tersedia
 variable_groups = {
     "Data Pribadi": [
         "Marital_status", "Age_at_enrollment", "Gender", "Nacionality",
         "International", "Displaced", "Educational_special_needs"
     ],
     "Data Akademik": [
-        "Application_mode", "Application_order", "Course", "Previous_qualification",
-        "Previous_qualification_grade", "Admission_grade"
+        "Application_mode", "Application_order", "Course", 
+        "Previous_qualification", "Previous_qualification_grade",
+        "Admission_grade", "Daytime_evening_attendance"
     ],
     "Data Keluarga": [
         "Mothers_qualification", "Fathers_qualification",
@@ -79,12 +120,12 @@ variable_groups = {
     "Data Keuangan": [
         "Debtor", "Tuition_fees_up_to_date", "Scholarship_holder"
     ],
-    "Data Akademik Semester 1": [
+    "Data Semester 1": [
         "Curricular_units_1st_sem_credited", "Curricular_units_1st_sem_enrolled",
         "Curricular_units_1st_sem_evaluations", "Curricular_units_1st_sem_approved",
         "Curricular_units_1st_sem_grade", "Curricular_units_1st_sem_without_evaluations"
     ],
-    "Data Akademik Semester 2": [
+    "Data Semester 2": [
         "Curricular_units_2nd_sem_credited", "Curricular_units_2nd_sem_enrolled",
         "Curricular_units_2nd_sem_evaluations", "Curricular_units_2nd_sem_approved",
         "Curricular_units_2nd_sem_grade", "Curricular_units_2nd_sem_without_evaluations"
@@ -101,11 +142,6 @@ def clip_values(values, ranges):
         if column in values:
             clipped_values[column] = np.clip(values[column], min_val, max_val)
     return clipped_values
-
-# Range untuk setiap variabel
-ranges = {
-    # ... (ranges sama seperti sebelumnya)
-}
 
 # Input Form dengan Tabs
 user_inputs = {}
