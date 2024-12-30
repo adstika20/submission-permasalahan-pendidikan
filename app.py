@@ -3,9 +3,18 @@ import streamlit as st
 import numpy as np
 import pickle
 
-# 2. Judul dan deskripsi aplikasi
-st.title("Menyelesaikan Permasalahan Institusi Pendidikan")
-st.write("Aplikasi ini menggunakan model Gradient Boosting untuk prediksi status mahasiswa (Graduate, Dropout, Enrolled).")
+# 2. Judul dan Deskripsi Aplikasi dengan Emoji
+st.markdown("<h1 style='text-align: center; color: #4CAF50;'>🌟 Prediksi Status Mahasiswa 🌟</h1>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <p style="text-align: center; font-size: 18px; color: #555;">
+    Aplikasi ini menggunakan model <b>Gradient Boosting</b> untuk memprediksi status mahasiswa:
+    <span style="color: green;">Graduate 🎓</span>, 
+    <span style="color: red;">Dropout ❌</span>, atau 
+    <span style="color: blue;">Enrolled 📘</span>.
+    </p>
+    """, unsafe_allow_html=True
+)
 
 # Fungsi untuk memastikan nilai berada dalam range yang benar
 def clip_values(values, ranges):
