@@ -64,51 +64,29 @@ def clip_values(df):
             df[column] = df[column].clip(min_val, max_val)
     return df
 
-if uploaded_file is not None:
-    if uploaded_file.name != "dataset_standarized.csv":
-        st.error("Please upload a file named 'dataset_standarized.csv'")
-    else:
-        data = pd.read_csv(uploaded_file)
-        st.write("Dataset preview:")
-        st.write(data.head())
+# Input nilai variabel dari pengguna
+st.subheader("Masukkan Nilai Variabel:")
+user_inputs = {}
+for variable in ranges.keys():
+    user_inputs[variable] = st.number_input(f"{variable}:", min_value=ranges[variable][0], max_value=ranges[variable][1], value=(ranges[variable][0] + ranges[variable][1]) // 2)
 
-        # 4. Validasi dataset
-        required_columns = [
-            'Marital_status', 'Application_mode', 'Application_order', 'Course',
-            'Daytime_evening_attendance', 'Previous_qualification', 'Previous_qualification_grade',
-            'Nacionality', 'Mothers_qualification', 'Fathers_qualification', 'Mothers_occupation',
-            'Fathers_occupation', 'Admission_grade', 'Displaced', 'Educational_special_needs',
-            'Debtor', 'Tuition_fees_up_to_date', 'Gender', 'Scholarship_holder', 'Age_at_enrollment',
-            'International', 'Curricular_units_1st_sem_credited', 'Curricular_units_1st_sem_enrolled',
-            'Curricular_units_1st_sem_evaluations', 'Curricular_units_1st_sem_approved',
-            'Curricular_units_1st_sem_grade', 'Curricular_units_1st_sem_without_evaluations',
-            'Curricular_units_2nd_sem_credited', 'Curricular_units_2nd_sem_enrolled',
-            'Curricular_units_2nd_sem_evaluations', 'Curricular_units_2nd_sem_approved',
-            'Curricular_units_2nd_sem_grade', 'Curricular_units_2nd_sem_without_evaluations',
-            'Unemployment_rate', 'Inflation_rate', 'GDP'
-        ]  # Ganti sesuai dengan kolom dataset Anda
-        if all(col in data.columns for col in required_columns):
-            X = data[required_columns]
-            # Menangani missing values
-            X = X.fillna(0)  # Atau gunakan dropna() sesuai kebutuhan
+# Clip nilai untuk memastikan berada dalam range yang valid
+clipped_inputs = clip_values(user_inputs, ranges)
 
-            # Normalisasi range nilai
-            X = clip_values(X)
+# Ubah input menjadi array untuk prediksi
+X = np.array([list(clipped_inputs.values())])
 
-        else:
-            st.error(f"Dataset must contain columns: {', '.join(required_columns)}")
+# 3. Memuat model 
+try:
+    with open("gboost_model.pkl", "rb") as file:
+        model = pickle.load(file)
+    st.success("Model loaded successfully!")
 
-        # 5. Memuat model
-        try:
-            with open("gboost_model.pkl", "rb") as file:
-                model = pickle.load(file)
-            st.success("Model loaded successfully!")
+    # 4. Prediksi dengan model
+    if st.button("Predict"):
+        prediction = model.predict(X)[0]
+        result = {2: "Graduate", 0: "Dropout", 1: "Enrolled"}
+        st.write(f"Prediction Result: {result[prediction]}")
 
-            # 6. Prediksi dengan model
-            if st.button("Predict"):
-                predictions = model.predict(X)
-                st.write("Predictions:")
-                st.write(predictions)
-
-        except FileNotFoundError:
-            st.error("Model file not found. Please train and save your model first.")
+except FileNotFoundError:
+    st.error("Model file not found. Please train and save your model first.")
